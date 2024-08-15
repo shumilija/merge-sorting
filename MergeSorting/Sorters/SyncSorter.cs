@@ -27,13 +27,14 @@ namespace MergeSorting.Sorters
         {
             var splitted = _splitter.Split(source);
 
-            var result = splitted.Dequeue();
-            while (splitted.TryDequeue(out var right))
+            T[] left;
+            while (splitted.TryDequeue(out left) && splitted.TryDequeue(out var right))
             {
-                result = _merger.Merge(result, right);
+                var merged = _merger.Merge(left, right);
+                splitted.Enqueue(merged);
             }
 
-            return result;
+            return left;
         }
     }
 }
