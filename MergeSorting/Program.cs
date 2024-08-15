@@ -19,6 +19,7 @@ namespace MergeSorting
 
 			var syncSorter = new SyncSorter<int>(splitter, merger);
 			var asyncSorter = new AsyncSorter<int>(splitter, merger);
+			var awaitSorter = new AwaitSorter<int>(splitter, merger);
 
 			var start = DateTime.UtcNow;
 			var syncSorted = syncSorter.Sort(source);
@@ -28,7 +29,12 @@ namespace MergeSorting
 			start = DateTime.UtcNow;
 			var asyncSorted = asyncSorter.SortAsync(source).Result;
 			Console.WriteLine("Время выполнения асинхронной сортировки: {0:s\\.fff}", DateTime.UtcNow - start);
-			//Console.WriteLine("Результат асинхронной сортировки: {0}", string.Join(" ", asyncSorted));
+			//Console.WriteLine("Результат асинхронной сортировки: {0}\n", string.Join(" ", asyncSorted));
+
+			start = DateTime.UtcNow;
+			var awaitSorted = awaitSorter.SortAsync(source).Result;
+			Console.WriteLine("Время выполнения асинхронной (через await) сортировки: {0:s\\.fff}", DateTime.UtcNow - start);
+			//Console.WriteLine("Результат асинхронной (через await) сортировки: {0}", string.Join(" ", awaitSorted));
 		}
 	}
 }
